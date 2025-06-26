@@ -1,0 +1,8 @@
+  numpy
+  pandas
+  openpyxl
+  scikit-optimize
+  matplotlib
+  pyvisa
+  pytest
+  pytest-mock
