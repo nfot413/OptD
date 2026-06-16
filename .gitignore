@@ -1,3 +1,10 @@
 # Python
 __pycache__/
 *.pyc
+.pytest_cache/
+
+# Runtime outputs
+results/
+
+# macOS
+.DS_Store

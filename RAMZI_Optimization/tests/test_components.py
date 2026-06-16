@@ -1,0 +1,44 @@
+import numpy as np
+import pytest
+from numpy.testing import assert_allclose
+
+from src.components import (
+    all_pass_ring_response,
+    delay_line_response,
+    directional_coupler_matrix,
+)
+
+
+def test_directional_coupler_matrix_matches_matlab_form():
+    matrix = directional_coupler_matrix(0.5)
+    expected = np.array(
+        [
+            [np.sqrt(0.5), -1j * np.sqrt(0.5)],
+            [-1j * np.sqrt(0.5), np.sqrt(0.5)],
+        ],
+        dtype=complex,
+    )
+    assert_allclose(matrix, expected)
+
+
+def test_directional_coupler_rejects_non_physical_coupling():
+    with pytest.raises(ValueError):
+        directional_coupler_matrix(1.2)
+
+
+def test_all_pass_ring_response_matches_expected_formula():
+    w = np.array([0.0, np.pi / 2])
+    k = 0.393
+    t = 0.979888
+    phase = np.pi
+    expected = (
+        np.sqrt(1 - k) - t**2 * np.exp(-1j * w) ** 2 * np.exp(-1j * phase)
+    ) / (
+        1 - np.sqrt(1 - k) * t**2 * np.exp(-1j * w) ** 2 * np.exp(-1j * phase)
+    )
+    assert_allclose(all_pass_ring_response(w, k, t, phase), expected)
+
+
+def test_delay_line_response_matches_matlab_form():
+    w = np.array([0.0, np.pi])
+    assert_allclose(delay_line_response(w, 0.9, 1.0, 0.0), 0.9 * np.exp(-1j * w))

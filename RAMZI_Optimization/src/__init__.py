@@ -1,11 +1,10 @@
-from .hardware import OSA, VoltageSource
-from .objective import ObjectiveFunction
-from .main import run
-
+from .objective import SpectrumObjective
+from .experiment import run_experiment
+from .simulation import ramzi_transfer, simulate_power_db
 
 __all__ = [
-    'OSA',
-    'VoltageSource',
-    'ObjectiveFunction',
-    'run',
+    "SpectrumObjective",
+    "run_experiment",
+    "ramzi_transfer",
+    "simulate_power_db",
 ]
