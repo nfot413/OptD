@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import numpy as np
 
-from .io import load_target_spectrum
 from .simulation import simulate_power_db
 
 

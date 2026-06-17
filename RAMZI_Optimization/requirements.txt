@@ -1,6 +1,4 @@
 numpy
-pandas
-openpyxl
 scipy
 matplotlib
 pytest

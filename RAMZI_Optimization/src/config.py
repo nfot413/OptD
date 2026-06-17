@@ -9,7 +9,7 @@ import numpy as np
 
 @dataclass(frozen=True)
 class DataConfig:
-    target_spectrum_file: str = "data/fsr1.xlsx"
+    target_spectrum_file: str = ""
     target_row: int = 0
     target_start_column: int = 1
 
@@ -30,18 +30,18 @@ class RamziConfig:
 
 @dataclass(frozen=True)
 class FrequencyGridConfig:
-    center_hz: float = 193.1e12
+    center_hz: float = 193.5405e12
     fsr_hz: float = 100e9
-    fsr_span: float = 10
-    w_min: float = -20 * np.pi
-    w_max: float = 20 * np.pi
+    fsr_span: float = 0.175
+    w_min: float = -0.35 * np.pi
+    w_max: float = 0.35 * np.pi
     num_points: int = 1401
 
 
 @dataclass(frozen=True)
 class OptimizerConfig:
-    max_iterations: int = 200
-    population_size: int = 15
+    max_iterations: int = 80
+    population_size: int = 10
     random_seed: int | None = 123
     polish_result: bool = True
 

@@ -5,9 +5,9 @@ from src.experiment import resolve_project_path, run_experiment
 
 
 def test_resolve_project_path_uses_subproject_root():
-    path = resolve_project_path("data/fsr1.xlsx")
-    assert path.name == "fsr1.xlsx"
-    assert path.parent.name == "data"
+    path = resolve_project_path("results/optimized_spectrum.csv")
+    assert path.name == "optimized_spectrum.csv"
+    assert path.parent.name == "results"
 
 
 def test_run_experiment_with_small_optimizer(tmp_path):
@@ -23,4 +23,4 @@ def test_run_experiment_with_small_optimizer(tmp_path):
     assert result.spectrum_csv.exists()
     assert result.spectrum_plot.exists()
     assert result.best_loss >= 0
-    assert result.best_params.shape == (3,)
+    assert result.best_params.shape == (7,)

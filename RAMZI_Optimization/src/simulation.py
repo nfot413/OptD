@@ -19,13 +19,18 @@ def create_frequency_grid(
     w_max: float,
     num_points: int,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Create normalized angular-frequency and physical-frequency arrays."""
-    w = np.linspace(w_min, w_max, num_points)
+    """Create physical-frequency and round-trip phase arrays.
+
+    The normalized angular coordinate is defined as
+    ``w = 2*pi*(frequency - f_center)/fsr``. The ``w_min`` and ``w_max``
+    arguments are kept for compatibility with older scripts.
+    """
     frequency = np.linspace(
         f_center - fsr_span * fsr,
         f_center + fsr_span * fsr,
         num_points,
     )
+    w = 2.0 * np.pi * (frequency - f_center) / fsr
     return w, frequency
 
 

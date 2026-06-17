@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>固定 RAMZI 仿真与优化</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>固定 RAMZI 仿真与优化</h1>
+      <div class="actions">
+        <button id="simulateBtn">仿真</button>
+        <button id="optimizeBtn" class="primary">优化</button>
+      </div>
+    </header>
+
+    <main class="workspace fixed-layout">
+      <section class="panel schematic-panel">
+        <div class="chart-header">
+          <h2>RAMZI 结构</h2>
+          <label>
+            输出端口
+            <select id="outputChannel">
+              <option value="cross">Cross</option>
+              <option value="bar">Bar</option>
+            </select>
+          </label>
+        </div>
+        <svg class="schematic" viewBox="0 0 920 260" role="img" aria-label="固定 RAMZI 结构示意图">
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#344054"></path>
+            </marker>
+          </defs>
+          <path class="wg" d="M45 130 H120" marker-end="url(#arrow)"></path>
+          <rect class="mzi" x="120" y="85" width="120" height="90" rx="8"></rect>
+          <text x="180" y="118" text-anchor="middle">输入 MZI</text>
+          <text x="180" y="140" text-anchor="middle">Ki=0.5</text>
+          <text x="180" y="162" text-anchor="middle">θi=π/2</text>
+
+          <path class="wg" d="M240 105 H315"></path>
+          <path class="wg" d="M240 155 H315"></path>
+          <text class="phase-label" x="274" y="92">fait</text>
+          <text class="phase-label" x="274" y="178">faib=-fait</text>
+
+          <rect class="ring-block" x="315" y="65" width="115" height="80" rx="8"></rect>
+          <circle class="ring" cx="372" cy="105" r="25"></circle>
+          <text x="372" y="109" text-anchor="middle">R1</text>
+          <text class="small" x="372" y="136" text-anchor="middle">L1=350um</text>
+          <rect class="ring-block" x="455" y="65" width="115" height="80" rx="8"></rect>
+          <circle class="ring" cx="512" cy="105" r="25"></circle>
+          <text x="512" y="109" text-anchor="middle">R2</text>
+          <text class="small" x="512" y="136" text-anchor="middle">L2=3000um</text>
+
+          <rect class="ring-block" x="315" y="155" width="115" height="80" rx="8"></rect>
+          <circle class="ring" cx="372" cy="195" r="25"></circle>
+          <text x="372" y="199" text-anchor="middle">R3</text>
+          <text class="small" x="372" y="226" text-anchor="middle">L3=350um</text>
+          <rect class="ring-block" x="455" y="155" width="115" height="80" rx="8"></rect>
+          <circle class="ring" cx="512" cy="195" r="25"></circle>
+          <text x="512" y="199" text-anchor="middle">R4</text>
+          <text class="small" x="512" y="226" text-anchor="middle">L4=3000um</text>
+
+          <path class="wg" d="M570 105 H660"></path>
+          <path class="wg" d="M570 195 H660"></path>
+          <rect class="mzi" x="660" y="105" width="120" height="90" rx="8"></rect>
+          <text x="720" y="138" text-anchor="middle">输出 MZI</text>
+          <text x="720" y="160" text-anchor="middle">Ko=0.5</text>
+          <text x="720" y="182" text-anchor="middle">θo=π/2</text>
+          <path class="wg" d="M780 130 H875" marker-end="url(#arrow)"></path>
+          <path class="wg faint" d="M780 170 H875" marker-end="url(#arrow)"></path>
+        </svg>
+        <div id="ringInfo" class="ring-info"></div>
+      </section>
+
+      <aside class="panel control-panel">
+        <h2>待优化参数</h2>
+        <div id="parameterPanel"></div>
+        <h2>频率与目标</h2>
+        <label>中心频率 (THz) <input id="centerThz" type="number" step="0.0001" /></label>
+        <label>扫描范围 (GHz) <input id="spanGhz" type="number" step="1" min="1" /></label>
+        <label>方波通带宽度 (GHz) <input id="passbandGhz" type="number" step="0.5" min="0.5" /></label>
+        <label>采样点数 <input id="numPoints" type="number" step="10" min="101" /></label>
+        <h2>优化设置</h2>
+        <label>迭代次数 <input id="maxIterations" type="number" min="1" /></label>
+        <label>种群规模 <input id="populationSize" type="number" min="1" /></label>
+        <label>随机种子 <input id="randomSeed" type="number" /></label>
+      </aside>
+
+      <section class="panel chart-panel">
+        <div class="chart-header">
+          <h2>目标方波与仿真光谱</h2>
+          <div id="metrics">MSE: -</div>
+        </div>
+        <svg id="chart" viewBox="0 0 900 320" role="img" aria-label="目标方波与 RAMZI 仿真光谱"></svg>
+      </section>
+
+      <section class="panel log-panel">
+        <h2>日志</h2>
+        <pre id="logOutput"></pre>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
